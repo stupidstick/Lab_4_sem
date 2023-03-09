@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.RadioMenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="workspace" prefHeight="960.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
+    <children>
+        <HBox fx:id="controlPanel" alignment="CENTER" layoutY="860.0" prefHeight="100.0" prefWidth="1280.0" style="-fx-border-color: gray; -fx-background-color: pink;">
+            <children>
+            <ImageView fitHeight="150.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/HelloKitty.png" />
+               </image>
+               <HBox.margin>
+                  <Insets right="15.0" />
+               </HBox.margin>
+            </ImageView>
+                <VBox alignment="CENTER" prefHeight="67.0" prefWidth="180.0">
+                    <children>
+                        <Button fx:id="startButton" mnemonicParsing="false" onAction="#start" prefHeight="35.0" prefWidth="220.0" text="Start">
+                            <VBox.margin>
+                                <Insets bottom="15.0" />
+                            </VBox.margin>
+                        </Button>
+                        <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stop" prefHeight="34.0" prefWidth="225.0" text="Stop">
+                            <VBox.margin>
+                                <Insets />
+                            </VBox.margin>
+                        </Button>
+                    </children>
+                    <HBox.margin>
+                        <Insets right="20.0" />
+                    </HBox.margin>
+                </VBox>
+                <CheckBox fx:id="infoButton" mnemonicParsing="false" text="Show info">
+                    <HBox.margin>
+                        <Insets right="20.0" />
+                    </HBox.margin></CheckBox>
+                <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
+                    <children>
+                        <RadioButton fx:id="showTimeButton" mnemonicParsing="false" onAction="#showTime" text="Show runtime" />
+                        <RadioButton fx:id="hideTimeButton" mnemonicParsing="false" onAction="#hideTime" text="Hide runtime" />
+                    </children>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <HBox.margin>
+                        <Insets right="20.0" />
+                    </HBox.margin>
+                </VBox>
+                <VBox alignment="CENTER" prefHeight="44.0" prefWidth="150.0">
+                    <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-alignment: Center;" text="Gold Fish spawn" wrappingWidth="148.173828125">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </Text>
+                        <ComboBox fx:id="goldFishProb" prefWidth="150.0">
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin></ComboBox>
+                        <TextField fx:id="goldFishSpawnTime" />
+                    </children>
+                    <HBox.margin>
+                        <Insets right="20.0" />
+                    </HBox.margin>
+                </VBox>
+                <VBox alignment="CENTER" prefHeight="44.0" prefWidth="150.0">
+                    <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-alignment: Center;" text="Guppy Fish spawn" wrappingWidth="148.173828125">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </Text>
+                        <ComboBox fx:id="guppyFishProb" prefWidth="150.0">
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
+                        </ComboBox>
+                        <TextField fx:id="guppyFishSpawnTime" />
+                    </children>
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+                </VBox>
+            <VBox alignment="CENTER" prefHeight="52.0" prefWidth="100.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gold fish life time">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="goldFishLifeTime">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </TextField>
+               </children>
+               <padding>
+                  <Insets right="20.0" />
+               </padding>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="52.0" prefWidth="100.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Guppy fish life time">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="guppyFishLifeTime" />
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </VBox>
+            <Button mnemonicParsing="false" onAction="#createAliveStage" prefHeight="25.0" prefWidth="98.0" text="Alive objects" />
+            </children>
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+            <padding>
+                <Insets left="10.0" />
+            </padding>
+        </HBox>
+        <Pane fx:id="simulationArea" layoutY="25.0" prefHeight="835.0" prefWidth="1280.0" style="-fx-background-color: #E9E9E9; -fx-border-color: red;" />
+      <MenuBar>
+         <menus>
+            <Menu mnemonicParsing="false" text="Running">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#start" text="Start">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="B" control="UP" meta="UP" shift="UP" shortcut="ANY" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#stop" text="Stop">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="E" control="UP" meta="UP" shift="UP" shortcut="ANY" />
+                     </accelerator></MenuItem>
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Show info">
+              <items>
+                  <CheckMenuItem fx:id="infoMenuItem" mnemonicParsing="false" onAction="#showInfo" text="Active" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Time">
+               <items>
+                  <RadioMenuItem fx:id="showTimeMenuItem" mnemonicParsing="false" onAction="#showTime" text="Show runtime" />
+                  <RadioMenuItem fx:id="hideTimeMenuItem" mnemonicParsing="false" onAction="#hideTime" text="Hide runtime" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Program">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit" />
+              </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <HBox fx:id="timeBox" alignment="CENTER" layoutX="545.0" prefHeight="25.0" prefWidth="191.0" />
+    </children>
+</AnchorPane>
