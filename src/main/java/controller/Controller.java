@@ -1,6 +1,8 @@
 package controller;
 
 import Domain.Model;
+import ai.GoldFishAI;
+import ai.GuppyFishAI;
 import data.FishData;
 import data.Parameters;
 import javafx.animation.AnimationTimer;
@@ -35,10 +37,28 @@ public class Controller extends View implements Initializable {
     Model model = new Model();
     TimeView simulationTime = new TimeView();
 
+    GoldFishAI goldFishAI = new GoldFishAI();
+    GuppyFishAI guppyFishAI = new GuppyFishAI();
 
     public static SimpleIntegerProperty connectionStatistic = new SimpleIntegerProperty(0);
 
     final LongProperty startTime = new SimpleLongProperty();
+
+    @FXML
+    public void switchGoldAI(){
+        synchronized (goldFishAI.getCheckAi()){
+            goldFishAI.getCheckAi().notify();
+        }
+        goldFishAI.setActive(!goldFishAI.getActive());
+    }
+
+    @FXML
+    public void switchGuppyAI(){
+        synchronized (guppyFishAI.getCheckAi()){
+            guppyFishAI.getCheckAi().notify();
+        }
+        guppyFishAI.setActive(!guppyFishAI.getActive());
+    }
 
     private void createStatisticStage() {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("statistic.fxml"));
@@ -121,6 +141,10 @@ public class Controller extends View implements Initializable {
         Parameters.setProbGoldFish(Double.parseDouble(goldFishProb.getValue().replace("%", "")) / 100);
     }
 
+    private void setAIPriority(){
+        goldFishAI.setPriority(Integer.parseInt(goldAIPriorityBox.getValue()));
+        guppyFishAI.setPriority(Integer.parseInt(guppyAIPriorityBox.getValue()));
+    }
 
 
     @FXML
@@ -130,8 +154,13 @@ public class Controller extends View implements Initializable {
             return;
         }
         setProbParameters();
+        setAIPriority();
         startView();
         startTime.set(new Date().getTime() - simulationTime.getTime() - 1000);
+        if (goldAICheckBox.isSelected())
+            goldFishAI.activate();
+        if (guppyAICheckBox.isSelected())
+            guppyFishAI.activate();
         timer.start();
     }
 
@@ -146,13 +175,14 @@ public class Controller extends View implements Initializable {
             pauseView();
             timer.stop();
         }
+        goldFishAI.deactivate();
+        guppyFishAI.deactivate();
     }
     public void keyPress() {
         workspace.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
                 if (keyEvent.getCode() == KeyCode.T) {
-                    System.out.println(FishData.getBirthTime());
                     showTimeView(simulationTime.getIsActive());
                     if (!simulationTime.getIsActive()) {
                         simulationTime.show();
@@ -196,6 +226,7 @@ public class Controller extends View implements Initializable {
         Parameters.setSpawnTimeGuppyFish(5);
         Parameters.setScreenHeight(simulationArea.getPrefHeight());
         Parameters.setScreenWidth(simulationArea.getPrefWidth());
+        Parameters.setVelocityFish(5.0);
     }
 
     private void setDefaultLifeTime(){
@@ -210,23 +241,28 @@ public class Controller extends View implements Initializable {
         public void handle(long now) {
             if (now - lastUpdate.get() > updateInterval) {
                 List<Fish> newFishes = model.update(startTime);
-                FishData.getFishesList().addAll(newFishes);
+                synchronized (FishData.getFishesList()){
+                    FishData.getFishesList().addAll(newFishes);
+                }
                 FishData.getId().addAll(newFishes.stream().map(Fish::getId).toList());
                 for (Fish obj : newFishes){
                     FishData.getBirthTime().put(obj.getId(), obj.getBirthTime());
                 }
-                simulationArea.getChildren().setAll(FishData.getFishesList().stream().map(Fish::toImageView).toList());
                 simulationTime.set(new Date().getTime() - startTime.get());
-                model.deadFish(simulationTime.getTimeInSeconds());
+                synchronized (FishData.getFishesList()){
+                    model.deadFish(simulationTime.getTimeInSeconds());
+                }
                 lastUpdate.set(now);
 
 
             }
+            simulationArea.getChildren().setAll(FishData.getFishesList().stream().map(Fish::toImageView).toList());
         }
     };
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
+        super.initialize();
         connectionStatistic.addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
@@ -248,15 +284,14 @@ public class Controller extends View implements Initializable {
             }
         });
         keyPress();
-        setProbComboBox();
         setParameters();
         setDefaultLifeTime();
-        setDefaultShowTime();
         setFishesProbValue(Parameters.getProbGoldFish(), Parameters.getProbGuppyFish());
         setFishesSpawnTime(Parameters.getSpawnTimeGoldFish(), Parameters.getSpawnTimeGuppyFish());
-        setError();
         timeBox.getChildren().add(simulationTime);
         simulationTime.setStyle("-fx-font-size: 15px; -fx-font-family: Times New Roman;");
+        goldFishAI.start();
+        guppyFishAI.start();
     }
 
     @FXML

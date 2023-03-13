@@ -27,6 +27,14 @@ public abstract class Fish implements IBehaviour {
         return cordY;
     }
 
+    public void setCordX(double cordX) {
+        this.cordX = cordX;
+    }
+
+    public void setCordY(double cordY) {
+        this.cordY = cordY;
+    }
+
     public Image getImage(){
         return image;
     }

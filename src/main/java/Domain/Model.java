@@ -25,7 +25,6 @@ public class Model {
     public List<Fish> update(LongProperty startTime){
         List<Fish> fishesList = new ArrayList<>();
         int beginTime = (int)((new Date().getTime() - startTime.get()) / Math.pow(10, 3));
-        System.out.println(beginTime + "--");
         if (beginTime % Parameters.getSpawnTimeGuppyFish() == 0 && (Math.random() <= Parameters.getProbGuppyFish())){
             GuppyFish guppyFish = new GuppyFish(0.9 * Parameters.getScreenHeight(), Parameters.getScreenWidth());
             guppyFish.setBirthTime(beginTime);

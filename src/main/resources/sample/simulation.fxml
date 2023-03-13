@@ -5,6 +5,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.CheckMenuItem?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -23,7 +24,7 @@
 
 <AnchorPane fx:id="workspace" prefHeight="960.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
     <children>
-        <HBox fx:id="controlPanel" alignment="CENTER" layoutY="860.0" prefHeight="100.0" prefWidth="1280.0" style="-fx-border-color: gray; -fx-background-color: pink;">
+        <HBox fx:id="controlPanel" alignment="CENTER" layoutY="759.0" prefHeight="201.0" prefWidth="1280.0" style="-fx-border-color: gray; -fx-background-color: pink;">
             <children>
             <ImageView fitHeight="150.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -33,7 +34,7 @@
                   <Insets right="15.0" />
                </HBox.margin>
             </ImageView>
-                <VBox alignment="CENTER" prefHeight="67.0" prefWidth="180.0">
+                <VBox alignment="CENTER" prefHeight="199.0" prefWidth="132.0">
                     <children>
                         <Button fx:id="startButton" mnemonicParsing="false" onAction="#start" prefHeight="35.0" prefWidth="220.0" text="Start">
                             <VBox.margin>
@@ -110,16 +111,9 @@
                   </Text>
                   <TextField fx:id="goldFishLifeTime">
                      <VBox.margin>
-                        <Insets />
+                        <Insets bottom="10.0" />
                      </VBox.margin>
                   </TextField>
-               </children>
-               <padding>
-                  <Insets right="20.0" />
-               </padding>
-            </VBox>
-            <VBox alignment="CENTER" prefHeight="52.0" prefWidth="100.0">
-               <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Guppy fish life time">
                      <font>
                         <Font size="16.0" />
@@ -127,14 +121,37 @@
                   </Text>
                   <TextField fx:id="guppyFishLifeTime" />
                </children>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
+               <padding>
+                  <Insets right="20.0" />
+               </padding>
+            </VBox>
+            <Button mnemonicParsing="false" onAction="#createAliveStage" prefHeight="25.0" prefWidth="98.0" text="Alive objects">
                <HBox.margin>
                   <Insets right="20.0" />
                </HBox.margin>
+            </Button>
+            <VBox alignment="CENTER" prefHeight="199.0" prefWidth="104.0">
+               <children>
+                  <CheckBox fx:id="goldAICheckBox" mnemonicParsing="false" onAction="#switchGoldAI" prefHeight="17.0" prefWidth="71.0" text="Gold AI">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox fx:id="guppyAICheckBox" mnemonicParsing="false" onAction="#switchGuppyAI" prefHeight="17.0" prefWidth="71.0" text="Guppy AI">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <Label text="Gold AI priority" />
+                  <ComboBox fx:id="goldAIPriorityBox" prefWidth="150.0">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </ComboBox>
+                  <Label text="Guppy AI priority" />
+                  <ComboBox fx:id="guppyAIPriorityBox" prefWidth="150.0" />
+               </children>
             </VBox>
-            <Button mnemonicParsing="false" onAction="#createAliveStage" prefHeight="25.0" prefWidth="98.0" text="Alive objects" />
             </children>
             <opaqueInsets>
                 <Insets />
@@ -143,7 +160,10 @@
                 <Insets left="10.0" />
             </padding>
         </HBox>
-        <Pane fx:id="simulationArea" layoutY="25.0" prefHeight="835.0" prefWidth="1280.0" style="-fx-background-color: #E9E9E9; -fx-border-color: red;" />
+        <Pane fx:id="simulationArea" layoutY="25.0" prefHeight="735.0" prefWidth="1280.0" style="-fx-background-color: #E9E9E9; -fx-border-color: red;">
+         <children>
+            <VBox layoutX="384.0" layoutY="81.0" prefHeight="200.0" prefWidth="292.0" />
+         </children></Pane>
       <MenuBar>
          <menus>
             <Menu mnemonicParsing="false" text="Running">

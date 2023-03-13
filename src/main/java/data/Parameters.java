@@ -1,5 +1,7 @@
 package data;
 
+import javafx.scene.layout.Priority;
+
 public class Parameters {
     private static Double probGoldFish;
     private static Double probGuppyFish;
@@ -7,6 +9,9 @@ public class Parameters {
     private static int spawnTimeGuppyFish;
     private static Double screenHeight;
     private static Double screenWidth;
+
+
+    private static Double velocityFish;
     public static Double getProbGoldFish() {
         return probGoldFish;
     }
@@ -31,6 +36,10 @@ public class Parameters {
         return screenWidth;
     }
 
+    public static Double getVelocityFish() {
+        return velocityFish;
+    }
+
     public static void setProbGoldFish(Double probGoldFish) {
         Parameters.probGoldFish = probGoldFish;
     }
@@ -53,5 +62,9 @@ public class Parameters {
 
     public static void setScreenWidth(Double screenWidth) {
         Parameters.screenWidth = screenWidth;
+    }
+
+    public static void setVelocityFish(Double velocityFish) {
+        Parameters.velocityFish = velocityFish;
     }
 }

@@ -46,7 +46,20 @@ public class View {
     protected TextField goldFishLifeTime;
     @FXML
     protected TextField guppyFishLifeTime;
+    @FXML
+    protected CheckBox goldAICheckBox;
+    @FXML
+    protected CheckBox guppyAICheckBox;
+    @FXML
+    protected ComboBox<String> goldAIPriorityBox;
+    @FXML
+    protected ComboBox<String> guppyAIPriorityBox;
     protected Alert error = new Alert(Alert.AlertType.ERROR);
+
+    protected void setAICheckBoxActive(){
+        goldAICheckBox.setSelected(true);
+        guppyAICheckBox.setSelected(true);
+    }
 
     protected void setError(){
         error.setContentText("Wrong spawn time");
@@ -54,16 +67,21 @@ public class View {
     }
 
     protected void startView(){
+        goldAICheckBox.setDisable(false);
+        guppyAICheckBox.setDisable(false);
         startButton.setDisable(true);
         goldFishProb.setDisable(true);
         guppyFishProb.setDisable(true);
+        goldAIPriorityBox.setDisable(true);
+        guppyAIPriorityBox.setDisable(true);
         goldFishSpawnTime.setDisable(true);
         guppyFishSpawnTime.setDisable(true);
         stopButton.setDisable(false);
-
     }
 
     protected void pauseView(){
+        goldAICheckBox.setDisable(true);
+        guppyAICheckBox.setDisable(true);
         startButton.setDisable(false);
         stopButton.setDisable(true);
     }
@@ -72,6 +90,8 @@ public class View {
         startButton.setDisable(false);
         goldFishProb.setDisable(false);
         guppyFishProb.setDisable(false);
+        goldAIPriorityBox.setDisable(false);
+        guppyAIPriorityBox.setDisable(false);
         goldFishSpawnTime.setDisable(false);
         guppyFishSpawnTime.setDisable(false);
         stopButton.setDisable(true);
@@ -93,6 +113,12 @@ public class View {
         guppyFishProb.getItems().addAll(probList);
     }
 
+    private void setAIPriority(){
+        List<String> probList = IntStream.range(1, 11).mapToObj(String::valueOf).toList();
+        goldAIPriorityBox.getItems().addAll(probList);
+        guppyAIPriorityBox.getItems().addAll(probList);
+    }
+
     protected void setFishesProbValue(double probGoldFish, double probGuppyFish){
         goldFishProb.setValue(String.valueOf((int) (probGoldFish * 100)) + "%");
         guppyFishProb.setValue(String.valueOf((int) (probGuppyFish * 100)) + "%");
@@ -105,4 +131,14 @@ public class View {
         hideTimeButton.setSelected(true);
         hideTimeButton.setDisable(true);
     }
+    protected void initialize(){
+        setAIPriority();
+        setProbComboBox();
+        setDefaultShowTime();
+        goldAIPriorityBox.setValue(String.valueOf(Thread.NORM_PRIORITY));
+        guppyAIPriorityBox.setValue(String.valueOf(Thread.NORM_PRIORITY));
+        setError();
+        setAICheckBoxActive();
+    }
+
 }
