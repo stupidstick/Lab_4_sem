@@ -7,15 +7,20 @@ import java.io.FileInputStream;
 public class GuppyFish extends Fish {
     private static int countObjects = 0;
     private static long lifeTime;
-    public GuppyFish(double height, double width){
-        super(height, width, 0.08);
-        countObjects++;
+    private static Image imageGuppyFish;
+
+    static {
+        countObjects = 0;
         try {
-            image = new Image(new FileInputStream(createPathToImage("GuppyFish.png")));
+            imageGuppyFish = new Image(new FileInputStream(createPathToImage("GuppyFish.png")));
         }
-        catch (Exception ex){
-            image = null;
+        catch (Exception exception){
+            System.out.println(exception.getMessage());
         }
+    }
+    public GuppyFish(double height, double width){
+        super(height, width, 0.08, imageGuppyFish);
+        countObjects++;
     }
 
     public static int getCountObjects(){
@@ -29,5 +34,13 @@ public class GuppyFish extends Fish {
 
     public static long getLifeTime() {
         return lifeTime;
+    }
+
+    public static Image getImageGuppyFish() {
+        return imageGuppyFish;
+    }
+
+    public static void setCountObjects(int countObjects) {
+        GuppyFish.countObjects = countObjects;
     }
 }

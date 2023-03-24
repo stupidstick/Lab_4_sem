@@ -6,6 +6,8 @@ import ai.GuppyFishAI;
 import data.FishData;
 import data.Parameters;
 import javafx.animation.AnimationTimer;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
@@ -27,6 +29,7 @@ import objects.GoldFish;
 import objects.GuppyFish;
 import sample.Main;
 
+import java.io.*;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
@@ -92,6 +95,22 @@ public class Controller extends View implements Initializable {
         aliveStage.setResizable(false);
         aliveStage.show();
     }
+
+    @FXML
+    private void createConsoleStage(){
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("console.fxml"));
+        Stage consoleStage = new Stage();
+        Scene consoleScene = null;
+        try {
+            consoleScene = new Scene(loader.load(), 600, 480);
+        }
+        catch (Exception exception) {
+            System.out.println(exception.getMessage());
+        }
+        consoleStage.setScene(consoleScene);
+        consoleStage.show();
+    }
+
     private boolean setSpawnField(){
         boolean result = true;
         try {
@@ -201,6 +220,7 @@ public class Controller extends View implements Initializable {
             }
         });
     }
+
     public void showInfo(ActionEvent actionEvent) {
         if (infoMenuItem.isSelected()) {
             infoButton.setSelected(true);
@@ -260,6 +280,47 @@ public class Controller extends View implements Initializable {
         }
     };
 
+    @FXML
+    private void save(ActionEvent actionEvent){
+        try {
+            ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("fish.dat"));
+            synchronized (FishData.getFishesList()){
+                for (int i = 0; i < FishData.getFishesList().size(); i++)
+                    outputStream.writeObject(FishData.getFishesList().get(i));
+            }
+        }
+        catch (Exception exception) {
+            System.out.println(exception.getMessage());
+        }
+    }
+
+
+    @FXML
+    private void load(ActionEvent actionEvent){
+        FishData.getFishesList().clear();
+        FishData.getId().clear();
+        FishData.getBirthTime().clear();
+        GoldFish.clearCountObjects();
+        GuppyFish.clearCountObjects();
+        try {
+            ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("fish.dat"));
+            while (true){
+                FishData.getFishesList().add((Fish) inputStream.readObject());
+            }
+        }
+        catch (Exception exception){
+            System.out.println(exception.getMessage());
+        }
+        try{
+            FishData.getFishesList().stream().filter(obj -> obj instanceof GoldFish).forEach(obj -> obj.setImage(GoldFish.getImageGoldFish()));
+            FishData.getFishesList().stream().filter(obj -> obj instanceof GuppyFish).forEach(obj -> obj.setImage(GuppyFish.getImageGuppyFish()));
+            FishData.getFishesList().forEach(obj -> obj.setBirthTime(simulationTime.getTimeInSeconds()));
+        }
+        catch (Exception exception){
+            System.out.println(exception.getMessage());
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb){
         super.initialize();
@@ -286,16 +347,29 @@ public class Controller extends View implements Initializable {
         keyPress();
         setParameters();
         setDefaultLifeTime();
-        setFishesProbValue(Parameters.getProbGoldFish(), Parameters.getProbGuppyFish());
-        setFishesSpawnTime(Parameters.getSpawnTimeGoldFish(), Parameters.getSpawnTimeGuppyFish());
         timeBox.getChildren().add(simulationTime);
         simulationTime.setStyle("-fx-font-size: 15px; -fx-font-family: Times New Roman;");
         goldFishAI.start();
         guppyFishAI.start();
+        setGoldFishProbListener();
+        try {
+            Parameters.readParameters();
+        }
+        catch (Exception exception) {
+            System.out.println(exception.getMessage());
+        }
+        setFishesProbValue(Parameters.getProbGoldFish(), Parameters.getProbGuppyFish());
+        setFishesSpawnTime(Parameters.getSpawnTimeGoldFish(), Parameters.getSpawnTimeGuppyFish());
     }
 
     @FXML
     public void exit(ActionEvent actionEvent){
+        try {
+            Parameters.saveParameters();
+        }
+        catch (Exception exception) {
+            System.out.println(exception.getMessage());
+        }
         System.exit(0);
     }
 }

@@ -1,5 +1,11 @@
 package controller;
 
+import data.Parameters;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -10,6 +16,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class View {
+
     @FXML
     protected AnchorPane workspace;
     @FXML
@@ -131,6 +138,16 @@ public class View {
         hideTimeButton.setSelected(true);
         hideTimeButton.setDisable(true);
     }
+
+    protected void setGoldFishProbListener(){
+        Parameters.probGoldFishProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                setFishesProbValue(Parameters.getProbGoldFish(), Parameters.getProbGuppyFish());
+            }
+        });
+    }
+
     protected void initialize(){
         setAIPriority();
         setProbComboBox();

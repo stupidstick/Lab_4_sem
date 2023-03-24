@@ -1,5 +1,6 @@
 package Domain;
 
+import controller.View;
 import data.FishData;
 import data.Parameters;
 import javafx.beans.property.LongProperty;
@@ -32,6 +33,7 @@ public class Model {
         }
         if (beginTime % Parameters.getSpawnTimeGoldFish() == 0 && (Math.random() <= Parameters.getProbGoldFish())){
             GoldFish goldFish = new GoldFish(0.9 * Parameters.getScreenHeight(), Parameters.getScreenWidth());
+            System.out.println(Parameters.getProbGoldFish());
             goldFish.setBirthTime(beginTime);
             fishesList.add(goldFish);
         }

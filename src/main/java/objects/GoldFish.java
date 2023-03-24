@@ -5,17 +5,22 @@ import javafx.scene.image.Image;
 import java.io.FileInputStream;
 
 public class GoldFish extends Fish {
-    private static int countObjects = 0;
+    private static int countObjects;
     private static long lifeTime;
-    public GoldFish(double height, double width){
-        super(height, width, 0.08);
-        countObjects++;
+    private static Image imageGoldFish;
+
+    static {
+        countObjects = 0;
         try {
-            image = new Image(new FileInputStream(createPathToImage("GoldFish.png")));
+            imageGoldFish = new Image(new FileInputStream(createPathToImage("GoldFish.png")));
         }
-        catch (Exception ex){
-            image = null;
+        catch (Exception exception){
+            System.out.println(exception.getMessage());
         }
+    }
+    public GoldFish(double height, double width){
+        super(height, width, 0.08, imageGoldFish);
+        countObjects++;
     }
     public static int getCountObjects(){
         return countObjects;
@@ -29,4 +34,13 @@ public class GoldFish extends Fish {
     public static long getLifeTime() {
         return lifeTime;
     }
+
+    public static Image getImageGoldFish() {
+        return imageGoldFish;
+    }
+
+    public static void setCountObjects(int countObjects) {
+        GoldFish.countObjects = countObjects;
+    }
+
 }

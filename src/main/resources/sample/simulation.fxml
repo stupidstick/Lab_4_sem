@@ -125,11 +125,19 @@
                   <Insets right="20.0" />
                </padding>
             </VBox>
-            <Button mnemonicParsing="false" onAction="#createAliveStage" prefHeight="25.0" prefWidth="98.0" text="Alive objects">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#createAliveStage" prefHeight="25.0" prefWidth="100.0" text="Alive objects">
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#createConsoleStage" prefWidth="100.0" text="Console" />
+               </children>
                <HBox.margin>
                   <Insets right="20.0" />
                </HBox.margin>
-            </Button>
+            </VBox>
             <VBox alignment="CENTER" prefHeight="199.0" prefWidth="104.0">
                <children>
                   <CheckBox fx:id="goldAICheckBox" mnemonicParsing="false" onAction="#switchGoldAI" prefHeight="17.0" prefWidth="71.0" text="Gold AI">
@@ -163,9 +171,24 @@
         <Pane fx:id="simulationArea" layoutY="25.0" prefHeight="735.0" prefWidth="1280.0" style="-fx-background-color: #E9E9E9; -fx-border-color: red;">
          <children>
             <VBox layoutX="384.0" layoutY="81.0" prefHeight="200.0" prefWidth="292.0" />
+            <Label fx:id="debugger" layoutX="44.0" layoutY="14.0" prefHeight="35.0" prefWidth="191.0" style="-fx-font-size: 20;" />
          </children></Pane>
       <MenuBar>
          <menus>
+            <Menu mnemonicParsing="false" text="File">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#save" text="Save">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="B" control="UP" meta="UP" shift="UP" shortcut="ANY" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#load" text="Load">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="E" control="UP" meta="UP" shift="UP" shortcut="ANY" />
+                     </accelerator>
+                  </MenuItem>
+               </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="Running">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#start" text="Start">

@@ -5,15 +5,18 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
+import java.io.Serializable;
 
 
-public abstract class Fish implements IBehaviour {
+public abstract class Fish implements IBehaviour, Serializable{
     private double cordX, cordY;
     private double imageHeight, imageWidth;
     private int id;
     private int birthTime;
-    protected Image image;
-    Fish(double height, double width, double multiply){
+    //protected transient Image image;
+    private transient Image image;
+    Fish(double height, double width, double multiply, Image image){
+        this.image = image;
         id = GoldFish.getCountObjects() + GuppyFish.getCountObjects();
         imageWidth = (width * multiply);
         imageHeight = (width * multiply);
@@ -35,9 +38,6 @@ public abstract class Fish implements IBehaviour {
         this.cordY = cordY;
     }
 
-    public Image getImage(){
-        return image;
-    }
 
     public double getImageHeight(){
         return imageHeight;
@@ -58,7 +58,27 @@ public abstract class Fish implements IBehaviour {
         this.birthTime = birthTime;
     }
 
-    protected String createPathToImage(String imgName){
+    public void setImageHeight(double imageHeight) {
+        this.imageHeight = imageHeight;
+    }
+
+    public void setImageWidth(double imageWidth) {
+        this.imageWidth = imageWidth;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public static String createPathToImage(String imgName){
         return String.format("%s\\src\\main\\resources\\images\\%s", new File("").getAbsolutePath(), imgName);
     }
 
