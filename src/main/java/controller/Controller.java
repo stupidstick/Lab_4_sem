@@ -3,6 +3,7 @@ package controller;
 import Domain.Model;
 import ai.GoldFishAI;
 import ai.GuppyFishAI;
+import client.Client;
 import data.FishData;
 import data.Parameters;
 import javafx.animation.AnimationTimer;
@@ -19,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.robot.Robot;
@@ -36,12 +38,13 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller extends View implements Initializable {
-    ObservableValue<Boolean> isActive;
-    Model model = new Model();
-    TimeView simulationTime = new TimeView();
+    private final Model model = new Model();
+    private final TimeView simulationTime = new TimeView();
 
-    GoldFishAI goldFishAI = new GoldFishAI();
-    GuppyFishAI guppyFishAI = new GuppyFishAI();
+    private final GoldFishAI goldFishAI = new GoldFishAI();
+    private final GuppyFishAI guppyFishAI = new GuppyFishAI();
+
+    private Client client;
 
     public static SimpleIntegerProperty connectionStatistic = new SimpleIntegerProperty(0);
 
@@ -321,6 +324,12 @@ public class Controller extends View implements Initializable {
         }
     }
 
+    @FXML
+    private void getParametersAction(){
+        MultipleSelectionModel selectionModel = listViewId.getSelectionModel();
+        client.parameterRequest(Integer.parseInt(selectionModel.getSelectedItem().toString()));
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb){
         super.initialize();
@@ -360,16 +369,20 @@ public class Controller extends View implements Initializable {
         }
         setFishesProbValue(Parameters.getProbGoldFish(), Parameters.getProbGuppyFish());
         setFishesSpawnTime(Parameters.getSpawnTimeGoldFish(), Parameters.getSpawnTimeGuppyFish());
+
+        client = new Client(listId);
+        client.start();
     }
 
     @FXML
-    public void exit(ActionEvent actionEvent){
+    public void exit(){
         try {
             Parameters.saveParameters();
         }
         catch (Exception exception) {
             System.out.println(exception.getMessage());
         }
+        client.closeClient();
         System.exit(0);
     }
 }

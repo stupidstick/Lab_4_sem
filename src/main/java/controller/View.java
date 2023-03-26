@@ -1,11 +1,14 @@
 package controller;
 
 import data.Parameters;
+import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -16,7 +19,6 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class View {
-
     @FXML
     protected AnchorPane workspace;
     @FXML
@@ -61,6 +63,13 @@ public class View {
     protected ComboBox<String> goldAIPriorityBox;
     @FXML
     protected ComboBox<String> guppyAIPriorityBox;
+    @FXML
+    protected ListView listViewId;
+    public static void updateListId(){
+        System.out.println(Thread.currentThread());
+    }
+    protected ObservableList<String> listId = FXCollections.observableArrayList();
+
     protected Alert error = new Alert(Alert.AlertType.ERROR);
 
     protected void setAICheckBoxActive(){
@@ -156,6 +165,7 @@ public class View {
         guppyAIPriorityBox.setValue(String.valueOf(Thread.NORM_PRIORITY));
         setError();
         setAICheckBoxActive();
+        listViewId.setItems(listId);
     }
 
 }

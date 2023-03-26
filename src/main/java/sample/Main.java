@@ -1,5 +1,6 @@
 package sample;
 
+import controller.Controller;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,6 +17,9 @@ public class Main extends Application {
         stage.setTitle("Hello!");
         stage.setResizable(false);
         stage.setScene(scene);
+        stage.setOnCloseRequest(windowEvent -> {
+            ((Controller) fxmlLoader.getController()).exit();
+        });
         stage.show();
     }
 

@@ -134,4 +134,17 @@ public class Parameters {
 
         fileReader.close();
     }
+
+    public static String parametersToString(){
+        return String.valueOf(getProbGoldFish()) + " " + String.valueOf(probGuppyFish) + " " + String.valueOf(spawnTimeGoldFish) + " " + String.valueOf(spawnTimeGuppyFish) + " " +  String.valueOf(GoldFish.getLifeTime()) + " " + String.valueOf(GuppyFish.getLifeTime());
+    }
+    public static void setParametersFromString(String input) {
+        String[] parameters = input.split(" ");
+        setProbGoldFish(Double.parseDouble(parameters[0]));
+        setProbGuppyFish(Double.parseDouble(parameters[1]));
+        setSpawnTimeGoldFish(Integer.parseInt(parameters[2]));
+        setSpawnTimeGuppyFish(Integer.parseInt(parameters[3]));
+        GoldFish.setLifeTime(Integer.parseInt(parameters[4]));
+        GuppyFish.setLifeTime(Integer.parseInt(parameters[5]));
+    }
 }
