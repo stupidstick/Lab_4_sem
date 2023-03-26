@@ -1,7 +1,10 @@
 package data;
 
+import javafx.beans.InvalidationListener;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.layout.Priority;
 import objects.GoldFish;
 import objects.GuppyFish;
@@ -15,13 +18,19 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Parameters {
-    private static DoubleProperty probGoldFish = new SimpleDoubleProperty();
-    private static Double probGuppyFish;
-    private static int spawnTimeGoldFish;
-    private static int spawnTimeGuppyFish;
+    private static DoubleProperty probGoldFish;
+    private static DoubleProperty probGuppyFish;
+    private static IntegerProperty spawnTimeGoldFish;
+    private static IntegerProperty spawnTimeGuppyFish;
     private static Double screenHeight;
     private static Double screenWidth;
 
+    static {
+        probGoldFish = new SimpleDoubleProperty();
+        probGuppyFish = new SimpleDoubleProperty();
+        spawnTimeGoldFish = new SimpleIntegerProperty();
+        spawnTimeGuppyFish = new SimpleIntegerProperty();
+    }
 
     private static Double velocityFish;
     public static Double getProbGoldFish() {
@@ -29,15 +38,15 @@ public class Parameters {
     }
 
     public static Double getProbGuppyFish() {
-        return probGuppyFish;
+        return probGuppyFish.get();
     }
 
     public static int getSpawnTimeGoldFish() {
-        return spawnTimeGoldFish;
+        return spawnTimeGoldFish.get();
     }
 
     public static int getSpawnTimeGuppyFish() {
-        return spawnTimeGuppyFish;
+        return spawnTimeGuppyFish.get();
     }
 
     public static Double getScreenHeight() {
@@ -57,15 +66,15 @@ public class Parameters {
     }
 
     public static void setProbGuppyFish(Double probGuppyFish) {
-        Parameters.probGuppyFish = probGuppyFish;
+        Parameters.probGuppyFish.set(probGuppyFish);
     }
 
     public static void setSpawnTimeGoldFish(int spawnTimeGoldFish) {
-        Parameters.spawnTimeGoldFish = spawnTimeGoldFish;
+        Parameters.spawnTimeGoldFish.set(spawnTimeGoldFish);
     }
 
     public static void setSpawnTimeGuppyFish(int spawnTimeGuppyFish) {
-        Parameters.spawnTimeGuppyFish = spawnTimeGuppyFish;
+        Parameters.spawnTimeGuppyFish.set(spawnTimeGuppyFish);
     }
 
     public static void setScreenHeight(Double screenHeight) {
@@ -82,6 +91,22 @@ public class Parameters {
 
     public static DoubleProperty probGoldFishProperty() {
         return probGoldFish;
+    }
+    public static DoubleProperty probGuppyFishProperty(){return probGoldFish;}
+
+    public static IntegerProperty spawnTimeGoldFishProperty() {
+        return spawnTimeGoldFish;
+    }
+
+    public static IntegerProperty spawnTimeGuppyFishProperty() {
+        return spawnTimeGuppyFish;
+    }
+
+    public static void addListener(InvalidationListener listener){
+        probGoldFish.addListener(listener);
+        probGuppyFish.addListener(listener);
+        spawnTimeGoldFish.addListener(listener);
+        spawnTimeGuppyFish.addListener(listener);
     }
 
     public static void consoleDispatcher() {
@@ -136,15 +161,17 @@ public class Parameters {
     }
 
     public static String parametersToString(){
-        return String.valueOf(getProbGoldFish()) + " " + String.valueOf(probGuppyFish) + " " + String.valueOf(spawnTimeGoldFish) + " " + String.valueOf(spawnTimeGuppyFish) + " " +  String.valueOf(GoldFish.getLifeTime()) + " " + String.valueOf(GuppyFish.getLifeTime());
+        return String.valueOf(getProbGoldFish()) + " " + String.valueOf(getProbGuppyFish()) + " " + String.valueOf(getSpawnTimeGoldFish()) + " " + String.valueOf(getSpawnTimeGuppyFish()) + " " +  String.valueOf(GoldFish.getLifeTime()) + " " + String.valueOf(GuppyFish.getLifeTime());
     }
     public static void setParametersFromString(String input) {
         String[] parameters = input.split(" ");
+        System.out.println(input);
         setProbGoldFish(Double.parseDouble(parameters[0]));
         setProbGuppyFish(Double.parseDouble(parameters[1]));
         setSpawnTimeGoldFish(Integer.parseInt(parameters[2]));
         setSpawnTimeGuppyFish(Integer.parseInt(parameters[3]));
         GoldFish.setLifeTime(Integer.parseInt(parameters[4]));
         GuppyFish.setLifeTime(Integer.parseInt(parameters[5]));
+        System.out.println(Double.parseDouble(parameters[0]) + " aboba");
     }
 }

@@ -4,9 +4,6 @@ import data.Parameters;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -65,9 +62,6 @@ public class View {
     protected ComboBox<String> guppyAIPriorityBox;
     @FXML
     protected ListView listViewId;
-    public static void updateListId(){
-        System.out.println(Thread.currentThread());
-    }
     protected ObservableList<String> listId = FXCollections.observableArrayList();
 
     protected Alert error = new Alert(Alert.AlertType.ERROR);
@@ -148,13 +142,20 @@ public class View {
         hideTimeButton.setDisable(true);
     }
 
-    protected void setGoldFishProbListener(){
-        Parameters.probGoldFishProperty().addListener(new InvalidationListener() {
+    protected void setFishParametersListener(){
+        Parameters.addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                setFishesProbValue(Parameters.getProbGoldFish(), Parameters.getProbGuppyFish());
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        setFishesProbValue(Parameters.getProbGoldFish(), Parameters.getProbGuppyFish());
+                        setFishesSpawnTime(Parameters.getSpawnTimeGoldFish(), Parameters.getSpawnTimeGuppyFish());
+                    }
+                });
             }
         });
+
     }
 
     protected void initialize(){
@@ -166,6 +167,7 @@ public class View {
         setError();
         setAICheckBoxActive();
         listViewId.setItems(listId);
+        setFishParametersListener();
     }
 
 }

@@ -7,8 +7,6 @@ import client.Client;
 import data.FishData;
 import data.Parameters;
 import javafx.animation.AnimationTimer;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
@@ -360,15 +358,12 @@ public class Controller extends View implements Initializable {
         simulationTime.setStyle("-fx-font-size: 15px; -fx-font-family: Times New Roman;");
         goldFishAI.start();
         guppyFishAI.start();
-        setGoldFishProbListener();
         try {
             Parameters.readParameters();
         }
         catch (Exception exception) {
             System.out.println(exception.getMessage());
         }
-        setFishesProbValue(Parameters.getProbGoldFish(), Parameters.getProbGuppyFish());
-        setFishesSpawnTime(Parameters.getSpawnTimeGoldFish(), Parameters.getSpawnTimeGuppyFish());
 
         client = new Client(listId);
         client.start();
