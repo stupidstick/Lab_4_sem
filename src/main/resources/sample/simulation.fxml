@@ -105,7 +105,7 @@
                 </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <ListView fx:id="listViewId" prefHeight="199.0" prefWidth="115.0" />
+                  <ListView fx:id="listViewId" prefHeight="156.0" prefWidth="98.0" />
                   <Button mnemonicParsing="false" onAction="#getParametersAction" prefWidth="115.0" text="Get Parameters" />
                </children>
             </VBox>
@@ -184,16 +184,10 @@
          <menus>
             <Menu mnemonicParsing="false" text="File">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#save" text="Save">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="B" control="UP" meta="UP" shift="UP" shortcut="ANY" />
-                     </accelerator>
-                  </MenuItem>
-                  <MenuItem mnemonicParsing="false" onAction="#load" text="Load">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="E" control="UP" meta="UP" shift="UP" shortcut="ANY" />
-                     </accelerator>
-                  </MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#save" text="Save to Flle" />
+                  <MenuItem mnemonicParsing="false" onAction="#load" text="Load from file" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveDB" text="Save to db" />
+                  <MenuItem mnemonicParsing="false" onAction="#loadDB" text="Load from db" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Running">

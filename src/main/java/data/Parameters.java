@@ -174,4 +174,12 @@ public class Parameters {
         GuppyFish.setLifeTime(Integer.parseInt(parameters[5]));
         System.out.println(Double.parseDouble(parameters[0]) + " aboba");
     }
+    public static void setParametersFromObject(ParametersDTO parameters){
+        setProbGoldFish(parameters.getProbGoldFish());
+        setProbGuppyFish(parameters.getProbGuppyFish());
+        setSpawnTimeGuppyFish(parameters.getSpawnTimeGuppyFish());
+        setSpawnTimeGoldFish(parameters.getSpawnTimeGoldFish());
+        GoldFish.setLifeTime(parameters.getLifeTimeGoldFish());
+        GuppyFish.setLifeTime(parameters.getLifeTimeGuppyFish());
+    }
 }

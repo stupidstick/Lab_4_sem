@@ -21,6 +21,7 @@ public class Main extends Application {
             ((Controller) fxmlLoader.getController()).exit();
         });
         stage.show();
+        ((Controller) fxmlLoader.getController()).createIpChooser();
     }
 
     public static void main(String[] args) {

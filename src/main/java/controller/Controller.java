@@ -6,6 +6,7 @@ import ai.GuppyFishAI;
 import client.Client;
 import data.FishData;
 import data.Parameters;
+import database.Database;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -18,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -62,6 +64,24 @@ public class Controller extends View implements Initializable {
             guppyFishAI.getCheckAi().notify();
         }
         guppyFishAI.setActive(!guppyFishAI.getActive());
+    }
+
+    public void createIpChooser(){
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("ipChooser.fxml"));
+        Scene chooserScene = null;
+        try{
+            chooserScene = new Scene(loader.load(), 600, 400);
+        }
+        catch (Exception exception){
+            System.out.println(exception.getMessage());
+        }
+        Stage chooserStage = new Stage();
+        chooserStage.initModality(Modality.APPLICATION_MODAL);
+        chooserStage.setScene(chooserScene);
+        chooserStage.setResizable(false);
+        ((IpChooserController)loader.getController()).setClient(client);
+        chooserStage.show();
+
     }
 
     private void createStatisticStage() {
@@ -323,9 +343,28 @@ public class Controller extends View implements Initializable {
     }
 
     @FXML
+    private void saveDB(){
+        Database.writeDB();
+    }
+    @FXML
+    private void loadDB(){
+        FishData.getFishesList().clear();
+        FishData.getId().clear();
+        FishData.getBirthTime().clear();
+        GoldFish.clearCountObjects();
+        GuppyFish.clearCountObjects();
+        Database.readDB();
+        FishData.getFishesList().forEach(obj -> obj.setBirthTime(simulationTime.getTimeInSeconds()));
+    }
+    @FXML
     private void getParametersAction(){
-        MultipleSelectionModel selectionModel = listViewId.getSelectionModel();
-        client.parameterRequest(Integer.parseInt(selectionModel.getSelectedItem().toString()));
+        try{
+            MultipleSelectionModel selectionModel = listViewId.getSelectionModel();
+            client.parameterRequest(Integer.parseInt(selectionModel.getSelectedItem().toString()));
+        }
+        catch (Exception exception){
+            System.out.println("not selected");
+        }
     }
 
     @Override
@@ -366,7 +405,6 @@ public class Controller extends View implements Initializable {
         }
 
         client = new Client(listId);
-        client.start();
     }
 
     @FXML
