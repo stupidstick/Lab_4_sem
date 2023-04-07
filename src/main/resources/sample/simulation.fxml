@@ -173,7 +173,7 @@
             <VBox layoutX="384.0" layoutY="81.0" prefHeight="200.0" prefWidth="292.0" />
             <Label fx:id="debugger" layoutX="44.0" layoutY="14.0" prefHeight="35.0" prefWidth="191.0" style="-fx-font-size: 20;" />
          </children></Pane>
-      <MenuBar>
+      <MenuBar layoutY="2.0">
          <menus>
             <Menu mnemonicParsing="false" text="File">
                <items>
@@ -187,6 +187,8 @@
                         <KeyCodeCombination alt="UP" code="E" control="UP" meta="UP" shift="UP" shortcut="ANY" />
                      </accelerator>
                   </MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#saveDB" text="Save DB" />
+                  <MenuItem mnemonicParsing="false" onAction="#loadDB" text="Load DB" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Running">

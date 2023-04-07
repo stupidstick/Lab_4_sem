@@ -1,7 +1,8 @@
 module sample {
     requires javafx.controls;
     requires javafx.fxml;
-
+    requires org.postgresql.jdbc;
+    requires java.sql;
 
     opens sample to javafx.fxml;
     exports sample;

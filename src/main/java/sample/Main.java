@@ -1,5 +1,6 @@
 package sample;
 
+import controller.Controller;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,6 +18,7 @@ public class Main extends Application {
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
+        ((Controller) fxmlLoader.getController()).createIpChooser();
     }
 
     public static void main(String[] args) {
